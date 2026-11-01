@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160" fill="none" role="img" aria-label="Crown Steel">
+  <path fill="#1a1a1a" d="M36 120h168v22H36z"/>
+  <path fill="#1a1a1a" d="M48 122 62 70 80 98 96 50 110 94 120 30 130 94 144 50 160 98 178 70 192 122H48z"/>
+  <circle fill="#1a1a1a" cx="62" cy="64" r="7.5"/>
+  <circle fill="#1a1a1a" cx="96" cy="44" r="7.5"/>
+  <circle fill="#1a1a1a" cx="120" cy="24" r="8.5"/>
+  <circle fill="#1a1a1a" cx="144" cy="44" r="7.5"/>
+  <circle fill="#1a1a1a" cx="178" cy="64" r="7.5"/>
+  <path fill="#ffffff" d="M58 128h124v5H58z"/>
+</svg>
