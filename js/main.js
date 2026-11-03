@@ -1,5 +1,5 @@
 /* One Products gallery. The pills and the menu switch the same grid.
-   Each category shows five photographs, grills and roofing first.
+   Each category shows up to ten photographs, grills and roofing first.
    To add a category later, add a line here and a matching pill.
    Photographs: images/products/<folder>/01.jpeg onward, no gaps.
    Videos: videos/landscape-01.mp4, landscape-02.mp4, portrait-01.mp4 … portrait-04.mp4
@@ -8,6 +8,12 @@
 const categories = [
   { id: "grills", label: "Grills", singular: "Grill", folder: "grills" },
   { id: "roofing", label: "Roofing", singular: "Roofing", folder: "roofing" },
+  { id: "structural", label: "Structural", singular: "Structural", folder: "structural" },
+  { id: "iron-gates", label: "Iron Gates", singular: "Iron gate", folder: "iron-gates" },
+  { id: "shutters", label: "Shutters", singular: "Shutter", folder: "shutters" },
+  { id: "steel-railings", label: "Steel Railings", singular: "Steel railing", folder: "steel-railings" },
+  { id: "window-grills", label: "Window Grills", singular: "Window grill", folder: "window-grills" },
+  { id: "aluminium", label: "Aluminium", singular: "Aluminium window", folder: "aluminium" },
   { id: "staircases", label: "Staircases", singular: "Staircase", folder: "staircases" },
   { id: "balcony-glass", label: "Balcony Glass", singular: "Balcony glass", folder: "balcony-glass" },
   { id: "balcony-railing", label: "Balcony Railing", singular: "Balcony railing", folder: "balcony-railing" },
@@ -425,7 +431,7 @@ document.querySelectorAll("[data-filter]").forEach((el) => {
 });
 
 function photosFor(categoryId) {
-  return photos.filter((photo) => photo.category === categoryId).slice(0, 5);
+  return photos.filter((photo) => photo.category === categoryId).slice(0, 10);
 }
 
 function visiblePhotos() {
@@ -467,7 +473,7 @@ async function loadPhotos() {
   const found = await Promise.all(categories.map(async (cat) => {
     const list = [];
     let misses = 0;
-    for (let n = 1; n <= 80 && misses < 2 && list.length < 5; n += 1) {
+    for (let n = 1; n <= 80 && misses < 2 && list.length < 10; n += 1) {
       const pad = String(n).padStart(2, "0");
       const url = await resolveImage(`images/products/${cat.folder}/${pad}`);
       if (url) {
