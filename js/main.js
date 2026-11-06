@@ -2,7 +2,6 @@
    Each category shows up to ten photographs, grills and roofing first.
    To add a category later, add a line here and a matching pill.
    Photographs: images/products/<folder>/01.jpeg onward, no gaps.
-   Videos: videos/landscape-01.mp4, landscape-02.mp4, portrait-01.mp4 … portrait-04.mp4
    The workshop emblem is images/logo.png. */
 
 const categories = [
@@ -27,28 +26,28 @@ const categories = [
 const heroSlides = [
   {
     base: "images/hero/01",
-    title: "Grills",
-    line: "White scroll grills on the front window."
+    title: "Welding",
+    line: "Mild steel & GI metal welding services"
   },
   {
     base: "images/hero/02",
-    title: "Roofing",
-    line: "Sheet shade on a steel frame."
+    title: "Main gates",
+    line: "Custom bi-fold & telescopic gates"
   },
   {
     base: "images/hero/03",
-    title: "Staircases",
-    line: "Granite stair with glass and a wood rail."
+    title: "Roofing",
+    line: "Custom pergola designs & terracotta tile roofing"
   },
   {
     base: "images/hero/04",
-    title: "Main gates",
-    line: "Wood and steel gate for the house front."
+    title: "Staircases",
+    line: "Architectural staircase & railing systems"
   },
   {
     base: "images/hero/05",
     title: "Balcony glass",
-    line: "Glass rails down the front of the building."
+    line: "Aluminium sliding windows & fabrication"
   }
 ];
 
@@ -723,23 +722,6 @@ function renderReviews() {
 document.getElementById("more-reviews").addEventListener("click", () => {
   reviewLimit += 5;
   renderReviews();
-});
-
-function markVideoMissing(frame) {
-  frame.classList.add("is-missing");
-}
-
-document.querySelectorAll(".video-frame").forEach((frame) => {
-  const video = frame.querySelector("video");
-  const source = video.querySelector("source");
-  const fail = () => markVideoMissing(frame);
-  video.addEventListener("error", fail);
-  source.addEventListener("error", fail);
-  fetch(source.getAttribute("src"), { method: "HEAD" })
-    .then((res) => {
-      if (!res.ok) fail();
-    })
-    .catch(() => {});
 });
 
 document.addEventListener("keydown", (event) => {
