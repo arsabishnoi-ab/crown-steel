@@ -5,47 +5,47 @@
    The workshop emblem is images/logo.png. */
 
 const categories = [
-  { id: "grills", label: "Grills", singular: "Grill", folder: "grills" },
-  { id: "roofing", label: "Roofing", singular: "Roofing", folder: "roofing" },
-  { id: "structural", label: "Structural", singular: "Structural", folder: "structural" },
-  { id: "iron-gates", label: "Iron Gates", singular: "Iron gate", folder: "iron-gates" },
-  { id: "shutters", label: "Shutters", singular: "Shutter", folder: "shutters" },
-  { id: "steel-railings", label: "Steel Railings", singular: "Steel railing", folder: "steel-railings" },
-  { id: "window-grills", label: "Window Grills", singular: "Window grill", folder: "window-grills" },
-  { id: "aluminium", label: "Aluminium", singular: "Aluminium window", folder: "aluminium" },
-  { id: "staircases", label: "Staircases", singular: "Staircase", folder: "staircases" },
-  { id: "balcony-glass", label: "Balcony Glass", singular: "Balcony glass", folder: "balcony-glass" },
-  { id: "balcony-railing", label: "Balcony Railing", singular: "Balcony railing", folder: "balcony-railing" },
-  { id: "main-gate", label: "Main Gate", singular: "Main gate", folder: "main-gate" },
-  { id: "sheds", label: "Sheds", singular: "Shed", folder: "sheds" },
-  { id: "gold-railing", label: "Gold Railing", singular: "Gold railing", folder: "gold-railing" },
-  { id: "chairs", label: "Chairs", singular: "Chair", folder: "chairs" },
-  { id: "showpieces", label: "Showpieces", singular: "Showpiece", folder: "showpieces" }
+  { id: "grills", label: "Grills", singular: "Grill", folder: "grills", count: 6 },
+  { id: "roofing", label: "Roofing", singular: "Roofing", folder: "roofing", count: 22 },
+  { id: "structural", label: "Structural", singular: "Structural", folder: "structural", count: 10 },
+  { id: "iron-gates", label: "Iron Gates", singular: "Iron gate", folder: "iron-gates", count: 10 },
+  { id: "shutters", label: "Shutters", singular: "Shutter", folder: "shutters", count: 10 },
+  { id: "steel-railings", label: "Steel Railings", singular: "Steel railing", folder: "steel-railings", count: 10 },
+  { id: "window-grills", label: "Window Grills", singular: "Window grill", folder: "window-grills", count: 10 },
+  { id: "aluminium", label: "Aluminium", singular: "Aluminium window", folder: "aluminium", count: 10 },
+  { id: "staircases", label: "Staircases", singular: "Staircase", folder: "staircases", count: 54 },
+  { id: "balcony-glass", label: "Balcony Glass", singular: "Balcony glass", folder: "balcony-glass", count: 22 },
+  { id: "balcony-railing", label: "Balcony Railing", singular: "Balcony railing", folder: "balcony-railing", count: 3 },
+  { id: "main-gate", label: "Main Gate", singular: "Main gate", folder: "main-gate", count: 32 },
+  { id: "sheds", label: "Sheds", singular: "Shed", folder: "sheds", count: 4 },
+  { id: "gold-railing", label: "Gold Railing", singular: "Gold railing", folder: "gold-railing", count: 2 },
+  { id: "chairs", label: "Chairs", singular: "Chair", folder: "chairs", count: 7 },
+  { id: "showpieces", label: "Showpieces", singular: "Showpiece", folder: "showpieces", count: 1 }
 ];
 
 const heroSlides = [
   {
-    base: "images/hero/01",
+    src: "images/hero/01.jpeg",
     title: "Welding",
     line: "Mild steel & GI metal welding services"
   },
   {
-    base: "images/hero/02",
+    src: "images/hero/02.jpeg",
     title: "Main gates",
     line: "Custom bi-fold & telescopic gates"
   },
   {
-    base: "images/hero/03",
+    src: "images/hero/03.jpeg",
     title: "Roofing",
     line: "Custom pergola designs & terracotta tile roofing"
   },
   {
-    base: "images/hero/04",
+    src: "images/hero/04.jpeg",
     title: "Staircases",
     line: "Architectural staircase & railing systems"
   },
   {
-    base: "images/hero/05",
+    src: "images/hero/05.jpeg",
     title: "Balcony glass",
     line: "Aluminium sliding windows & fabrication"
   }
@@ -306,8 +306,6 @@ function buildSampleReviews() {
 const reviews = buildSampleReviews();
 
 const avatarColors = ["#1a73e8", "#d93025", "#f9ab00", "#188038", "#9334e6", "#e37400", "#007b83"];
-const imageExts = ["jpg", "jpeg", "png", "webp"];
-
 const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const scrollBehavior = () => (motionQuery.matches ? "auto" : "smooth");
 
@@ -330,30 +328,6 @@ let lightboxItems = [];
 let lightboxIndex = 0;
 let lastFocus = null;
 let reviewLimit = 5;
-
-function probe(url) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => resolve(url);
-    img.onerror = () => resolve("");
-    img.src = url;
-  });
-}
-
-async function resolveImage(base) {
-  const stems = [base];
-  const file = base.split("/").pop();
-  if (/^0\d+$/.test(file)) {
-    stems.push(base.slice(0, -file.length) + String(Number(file)));
-  }
-  for (const stem of stems) {
-    for (const ext of imageExts) {
-      const found = await probe(`${stem}.${ext}`);
-      if (found) return found;
-    }
-  }
-  return "";
-}
 
 function syncHeaderHeight() {
   document.documentElement.style.setProperty("--header-h", `${header.offsetHeight}px`);
@@ -455,10 +429,15 @@ function renderGallery() {
     button.type = "button";
     button.className = "photo";
     const img = document.createElement("img");
-    img.src = photo.src;
     img.alt = photo.title;
     img.decoding = "async";
-    if (index > 5) img.loading = "lazy";
+    if (index < 2) {
+      img.src = photo.src;
+      img.fetchPriority = "high";
+    } else {
+      img.dataset.src = photo.src;
+      photoObserver.observe(img);
+    }
     const title = document.createElement("span");
     title.className = "photo-title";
     title.textContent = photo.title;
@@ -468,23 +447,27 @@ function renderGallery() {
   });
 }
 
-async function loadPhotos() {
-  const found = await Promise.all(categories.map(async (cat) => {
-    const list = [];
-    let misses = 0;
-    for (let n = 1; n <= 80 && misses < 2 && list.length < 10; n += 1) {
-      const pad = String(n).padStart(2, "0");
-      const url = await resolveImage(`images/products/${cat.folder}/${pad}`);
-      if (url) {
-        list.push({ src: url, title: cat.singular, category: cat.id });
-        misses = 0;
-      } else {
-        misses += 1;
-      }
-    }
-    return list;
-  }));
-  photos = found.flat();
+const photoObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    const img = entry.target;
+    if (img.dataset.src) img.src = img.dataset.src;
+    photoObserver.unobserve(img);
+  });
+}, { rootMargin: "600px 0px" });
+
+function loadPhotos() {
+  photos = categories.flatMap((cat) => {
+    const total = Math.min(cat.count, 10);
+    return Array.from({ length: total }, (_, index) => {
+      const pad = String(index + 1).padStart(2, "0");
+      return {
+        src: `images/products/${cat.folder}/${pad}.jpeg`,
+        title: cat.singular,
+        category: cat.id
+      };
+    });
+  });
   renderGallery();
 }
 
@@ -585,16 +568,23 @@ watchSwipe(lightbox, (direction) => {
   if (!lightbox.hidden) stepLightbox(direction);
 });
 
-async function loadHero() {
+function loadHero() {
   const frames = document.querySelectorAll(".hero-slide");
-  await Promise.all(heroSlides.map(async (slide, index) => {
-    const url = await resolveImage(slide.base);
-    if (!url) return;
-    const img = document.createElement("img");
-    img.src = url;
-    img.alt = slide.title;
-    frames[index].appendChild(img);
-  }));
+  const fill = () => {
+    heroSlides.forEach((slide, index) => {
+      const frame = frames[index];
+      if (!frame || frame.querySelector("img")) return;
+      const img = document.createElement("img");
+      img.src = slide.src;
+      img.alt = slide.title;
+      img.decoding = "async";
+      img.fetchPriority = "low";
+      frame.appendChild(img);
+    });
+  };
+  const first = frames[0] && frames[0].querySelector("img");
+  if (first && !first.complete) first.addEventListener("load", fill, { once: true });
+  else fill();
 }
 
 function relativeTime(iso) {
